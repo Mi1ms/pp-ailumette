@@ -1,14 +1,11 @@
 const readline = require('readline-sync');
 const ProgressBar = require('progress');
-const { log } = require('console');
-const { exit } = require('process');
-const { totalmem } = require('os');
 
 const bar = new ProgressBar(':bar', { total: 10 })
 
 
 const play = () => {
-    const luciferTT = 6;
+    const luciferTT = 8;
     const luciferLine = 3;
     let nbrLucifer = luciferTT;
     let isUrTurn = true;
@@ -27,7 +24,7 @@ const play = () => {
             response = turnIAPlaying(nbrLucifer);
             nbrLucifer = nbrLucifer - response; 
         }
-        console.log(`${isUrTurn ? 'Player' : 'IA'} removed ${response} match${response > 1 ? 'es' : ''} from line`)
+        console.log(`${isUrTurn ? 'Player' : 'IA'} removed ${response} match${response > 1 ? 'es' : ''} `)
 
         isUrTurn = !isUrTurn;
         
@@ -48,13 +45,14 @@ const fillArr = (total, line) => {
     for (let index = 0; index < line; index++) {
         resultArr[index] = [];
 
-        for (let idx = 1; idx >= nbrByLine; idx++) {
+        for (let idx = 0; idx < nbrByLine; idx++) {
             resultArr[index][idx] = true
         }
+        total = total - nbrByLine;
+        // nbrByLine = total/(resultArr.length - total)
         nbrByLine++;
     }
     console.log(resultArr)
-    exit;
     return resultArr;
 }
 
@@ -80,7 +78,7 @@ const displayLucifers = (nbr, totalNbr, actualLucifer) => {
 const questionUser = (totalLucifer) => {
     console.log('Your turn:');
 
-    let answerLine = readline.question('Line : ');
+    // let answerLine = readline.question('Line : ');
     let answerMatch = readline.question('Match : ');
     
     while (typeof answerMatch !== 'number' 
@@ -110,12 +108,5 @@ function randomIntFromInterval(min, max) {
     // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-  
-// const timer = setInterval(() => {
-//   bar.tick()
-//   if (bar.complete) {
-//     clearInterval(timer)
-//   }
-// }, 100)
 
 console.log(play())
