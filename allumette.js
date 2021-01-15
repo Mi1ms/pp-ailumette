@@ -38,8 +38,6 @@ const play = () => {
 
 const fillArr = (total, line) => {
     let resultArr = [];
-    let baseL = total/line;
-    console.log(baseL);
     let nbrByLine = 1
 
     for (let index = 0; index < line; index++) {
@@ -49,8 +47,15 @@ const fillArr = (total, line) => {
             resultArr[index][idx] = true
         }
         total = total - nbrByLine;
-        // nbrByLine = total/(resultArr.length - total)
-        nbrByLine++;
+
+        if (index > line) {
+            nbrByLine = total+2;         
+        } else {
+            nbrByLine = total;         
+        }
+
+        console.log(nbrByLine);
+        // nbrByLine++;
     }
     console.log(resultArr)
     return resultArr;
@@ -79,14 +84,14 @@ const questionUser = (totalLucifer) => {
     console.log('Your turn:');
 
     // let answerLine = readline.question('Line : ');
-    let answerMatch = readline.question('Match : ');
+    let answerMatch = Number(readline.question('Match : '));
     
-    while (typeof answerMatch !== 'number' 
-          && answerMatch === 1 || answerMatch === 2 
-          || answerMatch === 3 || answerMatch > totalLucifer) {
+    while (answerMatch < 1 || answerMatch > 3) {
             
             if (answerMatch > totalLucifer ) {
                 console.error('Error number superior of total lucifer');
+            } else if (answerMatch < 1) { 
+                console.error('Error: Given number inferior')
             } else {
                 console.error('Error: Shoud give answer beetween 1 to 3');          
             }
@@ -104,7 +109,7 @@ const turnIAPlaying = (luciferSize) => {
     }
 }
 
-function randomIntFromInterval(min, max) {
+const randomIntFromInterval = (min, max) => {
     // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
